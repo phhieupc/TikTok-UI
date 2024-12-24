@@ -10,7 +10,7 @@ import AccountPreview from './AccountPreview';
 
 const cx = classNames.bind(styles);
 
-function AccountItem() {
+function AccountItem({ tooltip }) {
     const renderPreview = (attrs) => {
         return (
             <div tabIndex="-1" {...attrs}>
@@ -21,15 +21,34 @@ function AccountItem() {
         );
     };
 
-    return (
-        <Tippy
-            interactive
-            delay={[800, 0]}
-            placement="bottom"
-            offset={[-20, 0]}
-            render={renderPreview}
-            appendTo={document.body}
-        >
+    if (tooltip)
+        return (
+            <Tippy
+                interactive
+                delay={[800, 0]}
+                placement="bottom"
+                offset={[-20, 0]}
+                render={renderPreview}
+                appendTo={document.body}
+            >
+                <div className={cx('account-item')}>
+                    <img
+                        className={cx('avatar')}
+                        src="https://qc-static.coccoc.com/a-images/88c/e1c/88ce1c3c7e58c8fe0f517528df8c50d9df42d53e6ad93affb2c6b7b2fd33efad.png"
+                        alt=""
+                    />
+                    <div className={cx('item-info')}>
+                        <p className={cx('nickname')}>
+                            <strong>hieuphan</strong>
+                            <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
+                        </p>
+                        <p className={cx('name')}>Hiếu Phan</p>
+                    </div>
+                </div>
+            </Tippy>
+        );
+    else
+        return (
             <div className={cx('account-item')}>
                 <img
                     className={cx('avatar')}
@@ -44,8 +63,7 @@ function AccountItem() {
                     <p className={cx('name')}>Hiếu Phan</p>
                 </div>
             </div>
-        </Tippy>
-    );
+        );
 }
 
 AccountItem.propTypes = {};

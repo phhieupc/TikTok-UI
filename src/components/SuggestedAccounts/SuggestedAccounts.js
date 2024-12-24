@@ -5,15 +5,15 @@ import AccountItem from './AccountItem';
 
 const cx = classNames.bind(styles);
 
-function SuggestedAccounts({ label }) {
+function SuggestedAccounts({ label, tooltip }) {
     return (
         <div className={cx('wrapper')}>
             <p className={cx('label')}>{label}</p>
 
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
+            <AccountItem tooltip={tooltip} />
+            <AccountItem tooltip={tooltip} />
+            <AccountItem tooltip={tooltip} />
+            <AccountItem tooltip={tooltip} />
 
             <p className={cx('more-btn')}>See all</p>
         </div>

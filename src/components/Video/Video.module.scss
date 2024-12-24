@@ -1,0 +1,140 @@
+.wrapper {
+    padding-top: 8px;
+    position: relative;
+    border-bottom: 1px solid #e3e3e4;
+    padding-bottom: 24px;
+    margin-bottom: 8px;
+    // scroll-snap-align: start;
+    // overflow-y: auto;
+}
+
+.wrapper + .wrapper {
+    margin-top: 12px;
+}
+
+.video-info {
+    display: flex;
+    min-width: 300px;
+}
+
+.wrapper-name {
+    margin-left: 6px;
+    padding-left: 6px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nick-name {
+    font-family: 'SofiaPro', sans-serif;
+    font-size: 1.7rem;
+    color: #161823;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.check-icon {
+    margin-left: 4px;
+    font-size: 1.4rem;
+    color: #20d5ec;
+}
+
+.name {
+    margin-left: 6px;
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: #161823;
+}
+
+.content {
+    font-size: 1.6rem;
+    margin: 1px 0 1px 0;
+}
+
+.music {
+    display: flex;
+    align-items: center;
+}
+
+.music-icon {
+    margin-right: 6px;
+    font-size: 1.5rem;
+}
+
+.music-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.follow-btn {
+    margin-left: 50px;
+}
+
+.video {
+    margin-left: 55px;
+    margin-top: 6px;
+    max-width: 300px;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.video-wrapper {
+    display: flex;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.single-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 18px;
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    background-color: #f1f1f2;
+    cursor: pointer;
+}
+
+.icon,
+.heart-icon,
+.bookmark-icon {
+    font-size: 2.1rem;
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heart-icon.active {
+    color: rgb(254, 44, 85);
+}
+
+.bookmark-icon.active {
+    color: rgb(250 206 21);
+}
+
+.value {
+    color: #161823bf;
+    font-size: 1.2rem;
+    margin-left: 18px;
+}

@@ -2,6 +2,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .get-app-btn:hover {
+        background-color: var(--white);
+    }
 }
 
 .container {
@@ -14,4 +18,13 @@
 
 .content {
     flex: 1;
+}
+
+.get-app-btn {
+    position: fixed;
+    font-size: 1.4rem;
+    color: #161823bf;
+    right: 15px;
+    bottom: 20px;
+    z-index: 9;
 }
