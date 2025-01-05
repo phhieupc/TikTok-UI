@@ -15,10 +15,62 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import * as userService from '~/services/userService';
+import * as userFollowsService from '~/services/userFollowsService';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
+const INIT_PAGE = 1;
+const PER_PAGE = 5;
+
 function Sidebar() {
+    const [page, setPage] = useState(INIT_PAGE);
+    const [isSeeAll, setIsSeeAll] = useState(false);
+    const [suggestedUsers, setSuggestedUsers] = useState([]);
+    const [followedUsers, setFollowedUsers] = useState([]);
+
+    useEffect(() => {
+        userService
+            .getSuggested({ page, perPage: PER_PAGE })
+            .then((data) => {
+                setSuggestedUsers((prevUsers) => {
+                    const uniqueUsers = new Map();
+                    [...prevUsers, ...data].forEach((user) => {
+                        uniqueUsers.set(user.id, user);
+                    });
+                    return Array.from(uniqueUsers.values());
+                    // [...prevUsers, ...data]);
+                });
+            })
+            .catch((error) => console.log(error));
+    }, [page]);
+
+    useEffect(() => {
+        userFollowsService
+            .getFollowed({ page, perPage: PER_PAGE })
+            .then((data) => {
+                setFollowedUsers((prevUsers) => {
+                    const uniqueUsers = new Map();
+                    [...prevUsers, ...data].forEach((user) => {
+                        uniqueUsers.set(user.id, user);
+                    });
+                    return Array.from(uniqueUsers.values());
+                    // [...prevUsers, ...data]);
+                });
+            })
+            .catch((error) => console.log(error));
+    }, [page]);
+
+    const handleViewChange = () => {
+        setIsSeeAll(!isSeeAll);
+        if (isSeeAll) {
+            setPage(INIT_PAGE);
+        } else {
+            setPage(page + 1);
+        }
+    };
+
     return (
         <aside className={cx('wrapper')}>
             <Menu>
@@ -31,8 +83,19 @@ function Sidebar() {
                 />
                 <MenuItem title="LIVE" to={config.routes.live} icon={<LiveIcon />} activeIcon={<LiveActiveIcon />} />
             </Menu>
-            <SuggestedAccounts label="Suggested account" tooltip />
-            <SuggestedAccounts label="Following account" />
+            <SuggestedAccounts
+                label="Suggested account"
+                tooltip
+                data={suggestedUsers}
+                isSeeAll={isSeeAll}
+                onViewChange={handleViewChange}
+            />
+            <SuggestedAccounts
+                label="Following account"
+                data={followedUsers}
+                isSeeAll={isSeeAll}
+                onViewChange={handleViewChange}
+            />
 
             <div className={cx('footer')}>
                 <div className={cx('title')}>

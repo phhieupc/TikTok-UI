@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './Video.module.scss';
-import video1 from '~/assets/videos/video1.mp4';
 import { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faBookmark, faCommentDots, faMusic, faShare } from '@fortawesome/free-solid-svg-icons';
@@ -8,27 +7,28 @@ import { HeartIcon } from '../Icons';
 import { Link } from 'react-router';
 import Button from '../Button';
 import { useElementOnScreen } from '~/pages/Home/Home';
+import Image from '../Image';
 
 const cx = classNames.bind(styles);
 
-const VideoInfo = () => {
+const VideoInfo = ({ data }) => {
     return (
         <div className={cx('video-info')}>
-            <img className={cx('avatar')} src="https://animehay.moe/upload/poster/3518-1725729749.jpg" alt="" />
+            <Image className={cx('avatar')} src={data.user.avatar} alt={data.user.nickname} />
             <div className={cx('wrapper-name')}>
                 <div>
-                    <Link className={cx('nick-name')} to="@hieuphan">
-                        hieuphan
+                    <Link className={cx('nick-name')} to={`@${data.user.nickname}`}>
+                        {data.user.nickname}
                     </Link>
-                    <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
+                    {data.user.tick && <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />}
                     <Link className={cx('name')} to="@hieuphan">
-                        Hiếu Phan
+                        {data.user.first_name} {data.user.last_name}
                     </Link>
                 </div>
-                <div className={cx('content')}>Video Vì là sai lối</div>
+                <div className={cx('content')}>{data.description}</div>
                 <div className={cx('music')}>
                     <FontAwesomeIcon className={cx('music-icon')} icon={faMusic} />
-                    <span className={cx('music-name')}> Vì là sai lối - Nguyễn Thành Đạt</span>
+                    <span className={cx('music-name')}> {data.music}</span>
                 </div>
             </div>
             <div>
@@ -40,7 +40,7 @@ const VideoInfo = () => {
     );
 };
 
-const VideoContent = ({ ref }) => {
+const VideoContent = ({ data }) => {
     const [likeActive, setLikeActive] = useState(false);
     const [saveActive, setSaveActive] = useState(false);
     const [playing, setPlaying] = useState(false);
@@ -102,13 +102,12 @@ const VideoContent = ({ ref }) => {
     return (
         <div className={cx('video-wrapper')}>
             <video
-                muted
-                autoPlay
+                controls
                 onClick={handleVideo}
                 ref={videoRef}
                 className={cx('video')}
                 loop
-                src={video1}
+                src={data.file_url}
                 width={330}
                 height={450}
             />
@@ -117,39 +116,39 @@ const VideoContent = ({ ref }) => {
                     <button className={cx('btn')} onClick={() => setLikeActive(!likeActive)}>
                         <HeartIcon className={cx('heart-icon', { active: likeActive })} />
                     </button>
-                    <strong className={cx('value')}>678.9K</strong>
+                    <strong className={cx('value')}>{data.likes_count}</strong>
                 </div>
 
                 <div className={cx('single-btn')}>
                     <button className={cx('btn')}>
                         <FontAwesomeIcon className={cx('icon')} icon={faCommentDots} />
                     </button>
-                    <strong className={cx('value')}>678.9K</strong>
+                    <strong className={cx('value')}>{data.comments_count}</strong>
                 </div>
 
                 <div className={cx('single-btn')}>
                     <button onClick={() => setSaveActive(!saveActive)} className={cx('btn')}>
                         <FontAwesomeIcon className={cx('bookmark-icon', { active: saveActive })} icon={faBookmark} />
                     </button>
-                    <strong className={cx('value')}>678.9K</strong>
+                    <strong className={cx('value')}>{data.views_count}</strong>
                 </div>
 
                 <div className={cx('single-btn')}>
                     <button className={cx('btn')}>
                         <FontAwesomeIcon className={cx('icon')} icon={faShare} />
                     </button>
-                    <strong className={cx('value')}>678.9K</strong>
+                    <strong className={cx('value')}>{data.shares_count}</strong>
                 </div>
             </div>
         </div>
     );
 };
 
-function Video({ ref }) {
+function Video({ data }) {
     return (
         <div className={cx('wrapper')}>
-            <VideoInfo />
-            <VideoContent />
+            <VideoInfo data={data} />
+            <VideoContent data={data} />
         </div>
     );
 }

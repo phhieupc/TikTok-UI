@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styles from './SuggestedAccounts.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,15 +7,16 @@ import { Wrapper as PopperWrapper } from '~/components/Popper';
 import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 import AccountPreview from './AccountPreview';
+import Image from '../Image';
 
 const cx = classNames.bind(styles);
 
-function AccountItem({ tooltip }) {
+function AccountItem({ tooltip, data }) {
     const renderPreview = (attrs) => {
         return (
             <div tabIndex="-1" {...attrs}>
                 <PopperWrapper>
-                    <AccountPreview />
+                    <AccountPreview data={data} />
                 </PopperWrapper>
             </div>
         );
@@ -32,17 +33,15 @@ function AccountItem({ tooltip }) {
                 appendTo={document.body}
             >
                 <div className={cx('account-item')}>
-                    <img
-                        className={cx('avatar')}
-                        src="https://qc-static.coccoc.com/a-images/88c/e1c/88ce1c3c7e58c8fe0f517528df8c50d9df42d53e6ad93affb2c6b7b2fd33efad.png"
-                        alt=""
-                    />
+                    <Image className={cx('avatar')} src={data.avatar} alt={data.nickname} />
                     <div className={cx('item-info')}>
                         <p className={cx('nickname')}>
-                            <strong>hieuphan</strong>
-                            <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
+                            <strong>{data.nickname}</strong>
+                            {data.tick && <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />}
                         </p>
-                        <p className={cx('name')}>Hiếu Phan</p>
+                        <p className={cx('name')}>
+                            {data.first_name} {data.last_name}
+                        </p>
                     </div>
                 </div>
             </Tippy>
@@ -50,22 +49,22 @@ function AccountItem({ tooltip }) {
     else
         return (
             <div className={cx('account-item')}>
-                <img
-                    className={cx('avatar')}
-                    src="https://qc-static.coccoc.com/a-images/88c/e1c/88ce1c3c7e58c8fe0f517528df8c50d9df42d53e6ad93affb2c6b7b2fd33efad.png"
-                    alt=""
-                />
+                <Image className={cx('avatar')} src={data.avatar} alt={data.nickname} />
                 <div className={cx('item-info')}>
                     <p className={cx('nickname')}>
-                        <strong>hieuphan</strong>
-                        <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
+                        <strong>{data.nickname}</strong>
+                        {data.tick && <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />}
                     </p>
-                    <p className={cx('name')}>Hiếu Phan</p>
+                    <p className={cx('name')}>
+                        {data.first_name} {data.last_name}
+                    </p>
                 </div>
             </div>
         );
 }
 
-AccountItem.propTypes = {};
+AccountItem.propTypes = {
+    data: PropTypes.object.isRequired,
+};
 
 export default AccountItem;
